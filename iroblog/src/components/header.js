@@ -1,35 +1,39 @@
-import * as React from "react"
-import PropTypes from "prop-types"
+import React, { useState, useEffect  } from 'react';
+import Indicator from "./indicator";
+import PropTypes, {element} from "prop-types"
 import { Link } from "gatsby"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+const Header = (props) => {
+  const [pagination, setPagination] = useState([])
+  useEffect(()=> {
+    setPagination([...pagination,
+      ...props.images.map((el, index)=> {
+        return  {
+          'value' : index,
+        }
+      })
+    ])
+
+  }, [])
+
+
+
+
+  console.log('pag', pagination)
+
+  return (
+      <div>
+        {pagination.map((list)=> {
+          return <Indicator
+              
+            value = {list.value}
+            id = {list.id}
+          />
+        })}
+      </div>
+  )
+
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
